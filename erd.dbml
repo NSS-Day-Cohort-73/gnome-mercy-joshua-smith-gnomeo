@@ -1,0 +1,40 @@
+Table crafters {
+    id int [pk]
+    name varchar
+    bio varchar
+}
+
+Table craftTypes {
+    id int [pk]
+    type varchar
+}
+
+Table ingredients {
+    id int [pk]
+    name varchar
+}
+
+Table craftRequests {
+    id int [pk]
+    name varchar
+    intendedUse varchar
+    craftTypeId int
+}
+
+Table completions {
+    id int [pk]
+    crafterId int
+    craftRequestId int
+}
+
+Table craftIngredients {
+    id int [pk]
+    completionId int
+    ingredientId int
+}
+
+ref: craftTypes.id < craftRequests.craftTypeId
+ref: crafters.id < completions.crafterId
+ref: craftRequests.id < completions.craftRequestId
+ref: completions.id < craftIngredients.completionId
+ref: ingredients.id < craftIngredients.ingredientId

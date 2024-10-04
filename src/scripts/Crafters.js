@@ -3,14 +3,31 @@
     Generate HTML for the dropdown of crafters. When one is
     selected, update transient state.
 */
+import { setCrafterChoice } from './dataAccess.js'
 
-export const Crafters = () => {
-  const crafters = getCrafters();
+const handleCrafterChoice = (changeEvent) => {
+    if (changeEvent.target.name === "crafter") {
+        const chosenCrafter = changeEvent.target.value
+        setCrafterChoice(parseInt(chosenCrafter))
+    }
+}
 
-  return `
-    <h3>Crafters</h3>
-    <select id="crafter">
+export const Crafters = async () => {
+    const response = await fetch ("http://localhost:8088/crafters")
+    const crafters = await response.json()
+
+    document.addEventListener("change", handleCrafterChoice)
+
+    let craftersHTML = `<select id="crafter">
         <option value="0">--Choose A Crafter--</option>
-    </select>
-  `;
+    `
+    const craftersStringArray = crafters.map(
+        (crafter) => {
+            return `<option value="${crafter.id}">${crafter.name}</option>`
+        }
+    )
+    craftersHTML += craftersStringArray.join("")
+    craftersHTML += "</select>"
+
+    return craftersHTML
 };
