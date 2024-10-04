@@ -56,6 +56,12 @@ const createCraftIngredients = (completion) => {
 
 export const setIngredients = (id) => {
   // Step 1: Use the has() method to determine if the Set has the ingredient
-  // Step 2: If it does, remove it with delete() method
-  // Step 3: If it does not, add it with add() method
+  if (applicationState.userChoices.chosenIngredients.has(id)) {
+    // Step 2: If it does, remove it with delete() method
+    applicationState.userChoices.chosenIngredients.delete(id)
+  } else {
+    // Step 3: If it does not, add it with add() method
+    applicationState.userChoices.chosenIngredients.add(id)
+  }
+
 };
